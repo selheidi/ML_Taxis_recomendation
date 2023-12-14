@@ -10,7 +10,7 @@ app = FastAPI()
 df = pd.read_csv('demanda_taxi_amarillo_pronostrico4dias_contaminacion_aire_NYC.csv')
 
 @app.get( "/recomendacion/{recomendacion}", name = 'Recomendacion')
-async def sugerir_mejor_momento(rango_horario:str, zona_partida:str, zona_destino:str):
+async def sugerir_mejor_momento(rango_horario:str), (zona_partida:str), (zona_destino:str):
     """
     La siguiente función retorna una recomendacion de día y horario de viaje para viajar de forma más ecológica, rápida y con menos contaminación atmosférica
 
@@ -53,7 +53,7 @@ async def sugerir_mejor_momento(rango_horario:str, zona_partida:str, zona_destin
     # Encontrar el momento con la demanda más baja y mejor calidad del aire
     mejor_momento = resumen.loc[resumen['count'].idxmin()]
 
-    resultado_dict = {
+    return {
         'zona_partida': zona_partida,
         'zona_destino': zona_destino,
         'dia_semana': mejor_momento['day_of_week'],
@@ -62,4 +62,3 @@ async def sugerir_mejor_momento(rango_horario:str, zona_partida:str, zona_destin
         'demanda_promedio': mejor_momento['count']
     }
 
-    return resultado_dict
