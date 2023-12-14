@@ -1,8 +1,6 @@
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
-#import json
 import pandas as pd
-
+from fastapi import FastAPI
+import uvicorn 
 #instanciar la aplicación
 
 app = FastAPI()
