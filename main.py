@@ -5,12 +5,19 @@ import uvicorn
 
 app = FastAPI()
 
-#dataframes que se utilizan en las funciones de la API
+from fastapi import FastAPI
 
+app = FastAPI()
+
+@app.get("/")
+async def read_root():
+    return {"message": "Hello, this is the root endpoint!"}
+
+# Dataframe que se utiliza en las funciones de la API
 df = pd.read_csv('demanda_taxi_amarillo_pronostrico4dias_contaminacion_aire_NYC.csv')
 
-@app.get( "/recomendacion/{recomendacion}", name = 'Recomendacion')
-async def sugerir_mejor_momento(rango_horario:str, zona_partida:str, zona_destino:str):
+@app.get("/recomendacion/{recomendacion}", name='Recomendacion')
+async def sugerir_mejor_momento(recomendacion: str, rango_horario: str, zona_partida: str, zona_destino: str):
     """
     La siguiente función retorna una recomendacion de día y horario de viaje para viajar de forma más ecológica, rápida y con menos contaminación atmosférica
 
@@ -28,11 +35,9 @@ async def sugerir_mejor_momento(rango_horario:str, zona_partida:str, zona_destin
             'hora_dia': 8,
             'calidad_aire': 'Good',
             'demanda_promedio': 112.0}
-    
-
     """
-
-
+    # Procesar rango_horario y convertirlo a una tupla de enteros
+    rango_horario = tuple(map(int, rango_horario.split(',')))
 
     # Filtrar por rango horario y zonas de partida y destino
     filtro_rango_horario = df['hour_of_day'].between(rango_horario[0], rango_horario[1])
@@ -61,4 +66,3 @@ async def sugerir_mejor_momento(rango_horario:str, zona_partida:str, zona_destin
         'calidad_aire': mejor_momento['Air_Quality_Index_(aqi)'],
         'demanda_promedio': mejor_momento['count']
     }
-
