@@ -37,6 +37,13 @@ async def sugerir_mejor_momento(inicio_horario: int, fin_horario: int, zona_part
         # Encontrar el momento con la demanda más baja y mejor calidad del aire
         mejor_momento = resumen.loc[resumen['count'].idxmin()]
 
-        return {"message": "Hello, this is the root endpoint!"}
+        return {
+        "zona_partida": zona_partida,
+        "zona_destino": zona_destino,
+        "dia_semana": mejor_momento['day_of_week'],
+        "hora_dia": mejor_momento['hour_of_day'],
+        "calidad_aire": mejor_momento['Air_Quality_Index_(aqi)'],
+        "demanda_promedio": mejor_momento['count']
+    }
     except Exception as e:
         return {"error": str(e)}
