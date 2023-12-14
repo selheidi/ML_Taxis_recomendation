@@ -9,7 +9,7 @@ app = FastAPI()
 
 df = pd.read_csv('demanda_taxi_amarillo_pronostrico4dias_contaminacion_aire_NYC.csv')
 
-@app.get( "/recomendacion/{recomendacion}", name = "Recomendacion")
+@app.get( "/recomendacion/{recomendacion}", name = 'Recomendacion')
 async def sugerir_mejor_momento(rango_horario:str, zona_partida:str, zona_destino:str):
     """
     La siguiente función retorna una recomendacion de día y horario de viaje para viajar de forma más ecológica, rápida y con menos contaminación atmosférica
